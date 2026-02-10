@@ -4,7 +4,6 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 
-
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "👋 Hello from Shop Elbi!\nReady to shop our latest goodies? 🛍💖"
@@ -12,4 +11,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 app = ApplicationBuilder().token(BOT_TOKEN).build()
 app.add_handler(CommandHandler("start", start))
+
+# Run the bot
 app.run_polling()
