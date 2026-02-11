@@ -13,143 +13,78 @@ from telegram.ext import (
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 
-# /start command
+# START MENU
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
-        [InlineKeyboardButton("🛍 Browse Products", callback_data="browse")],
-        [
-            InlineKeyboardButton(
-                "📸 Instagram",
-                url="https://www.instagram.com/shopelbii?igsh=cjZuZWN1cm5mYTgw&utm_source=qr"
-            )
-        ]
+        [InlineKeyboardButton("🧕 Bonnet", callback_data="bonnet")],
+        [InlineKeyboardButton("🎀 Scrunchies", callback_data="scrunchies")],
+        [InlineKeyboardButton("🦋 Claw Clips", callback_data="claw")],
+        [InlineKeyboardButton("👑 Headbands", callback_data="headband")],
+        [InlineKeyboardButton("🧶 Crochets", callback_data="crochet")],
+        [InlineKeyboardButton("🎁 Package Sets", callback_data="package")],
+        [InlineKeyboardButton("📸 Instagram", url="https://www.instagram.com/shopelbii?igsh=cjZuZWN1cm5mYTgw&utm_source=qr")]
     ]
 
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
     await update.message.reply_text(
-        "🛍 Welcome to Shop Elbi!\n"
-        "✨ Cute accessories, thoughtfully made ✨\n\n"
-        "Tap below to explore our products 💫",
-        reply_markup=InlineKeyboardMarkup(keyboard)
+        "✨ Welcome to Shop Elbi ✨\n\nChoose a category below 💕",
+        reply_markup=reply_markup
     )
 
-# Category keyboard (reusable)
-def category_keyboard():
-    return InlineKeyboardMarkup([
-        [InlineKeyboardButton("🎀 Bonnets", callback_data="bonnets")],
-        [InlineKeyboardButton("💖 Scrunchies", callback_data="scrunchies")],
-        [InlineKeyboardButton("🖇 Claw Clips", callback_data="claw_clips")],
-        [InlineKeyboardButton("🎗 Headbands", callback_data="headbands")],
-        [InlineKeyboardButton("🧶 Crochets", callback_data="crochets")],
-        [InlineKeyboardButton("🎁 Package Sets", callback_data="packages")],
-    ])
-
-# Back button
-def back_button():
-    return InlineKeyboardMarkup([
-        [InlineKeyboardButton("🔙 Back to Categories", callback_data="browse")]
-    ])
-
-# Button handler
+# BUTTON HANDLER
 async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
 
-    if query.data == "browse":
-        await query.message.reply_text(
-            "🛍 Choose a category:",
-            reply_markup=category_keyboard()
-        )
+    # BACK BUTTON MENU
+    back_button = InlineKeyboardMarkup([
+        [InlineKeyboardButton("⬅ Back to Menu", callback_data="back")]
+    ])
 
-    elif query.data == "bonnets":
-        await query.message.reply_photo(
-            photo="https://via.placeholder.com/600x600.png?text=Bonnets",
-            caption=(
-                "🎀 *Bonnets*\n\n"
-                "• Satin Bonnets — from *300 ETB*\n"
-                "• Double-layer Bonnets — from *350 ETB*\n\n"
-                "✨ Multiple colors available\n"
-                "💬 Message us to order"
-            ),
-            parse_mode="Markdown",
-            reply_markup=back_button()
+    if query.data == "bonnet":
+        await query.edit_message_text(
+            "🧕 Bonnet Collection\n\nPremium silk bonnets\nPrice: 350 birr 💕",
+            reply_markup=back_button
         )
 
     elif query.data == "scrunchies":
-        await query.message.reply_photo(
-            photo="https://via.placeholder.com/600x600.png?text=Scrunchies",
-            caption=(
-                "💖 *Scrunchies*\n\n"
-                "• Satin — *150 ETB*\n"
-                "• Velvet — *180 ETB*\n"
-                "• Mini — *120 ETB*\n\n"
-                "🎀 Bundle discounts available\n"
-                "💬 Message us to order"
-            ),
-            parse_mode="Markdown",
-            reply_markup=back_button()
+        await query.edit_message_text(
+            "🎀 Scrunchies Collection\n\nSoft & stylish scrunchies\nPrice: 120 birr 💕",
+            reply_markup=back_button
         )
 
-    elif query.data == "claw_clips":
-        await query.message.reply_photo(
-            photo="https://via.placeholder.com/600x600.png?text=Claw+Clips",
-            caption=(
-                "🖇 *Claw Clips*\n\n"
-                "• Small — *200 ETB*\n"
-                "• Medium — *250 ETB*\n"
-                "• Large — *300 ETB*\n\n"
-                "✨ Strong & trendy\n"
-                "💬 Message us to order"
-            ),
-            parse_mode="Markdown",
-            reply_markup=back_button()
+    elif query.data == "claw":
+        await query.edit_message_text(
+            "🦋 Claw Clips Collection\n\nTrendy claw clips\nPrice: 200 birr 💕",
+            reply_markup=back_button
         )
 
-    elif query.data == "headbands":
-        await query.message.reply_photo(
-            photo="https://via.placeholder.com/600x600.png?text=Headbands",
-            caption=(
-                "🎗 *Headbands*\n\n"
-                "• Fabric — *200 ETB*\n"
-                "• Knotted — *250 ETB*\n\n"
-                "✨ Comfortable & stylish\n"
-                "💬 Message us to order"
-            ),
-            parse_mode="Markdown",
-            reply_markup=back_button()
+    elif query.data == "headband":
+        await query.edit_message_text(
+            "👑 Headbands Collection\n\nCute & comfy headbands\nPrice: 180 birr 💕",
+            reply_markup=back_button
         )
 
-    elif query.data == "crochets":
-        await query.message.reply_photo(
-            photo="https://via.placeholder.com/600x600.png?text=Crochets",
-            caption=(
-                "🧶 *Crochets*\n\n"
-                "• Handmade — from *400 ETB*\n\n"
-                "✨ Custom colors available\n"
-                "💬 Message us to order"
-            ),
-            parse_mode="Markdown",
-            reply_markup=back_button()
+    elif query.data == "crochet":
+        await query.edit_message_text(
+            "🧶 Crochet Collection\n\nHandmade crochet pieces\nPrice: 400 birr 💕",
+            reply_markup=back_button
         )
 
-    elif query.data == "packages":
-        await query.message.reply_photo(
-            photo="https://via.placeholder.com/600x600.png?text=Package+Sets",
-            caption=(
-                "🎁 *Package Sets*\n\n"
-                "• Starter — *700 ETB*\n"
-                "• Gift — *900 ETB*\n"
-                "• Deluxe — *1200 ETB*\n\n"
-                "🎀 Perfect for gifts\n"
-                "💬 Message us to order"
-            ),
-            parse_mode="Markdown",
-            reply_markup=back_button()
+    elif query.data == "package":
+        await query.edit_message_text(
+            "🎁 Package Sets\n\nBundle & save deals\nPrice: Starting 900 birr 💕",
+            reply_markup=back_button
         )
 
-# App setup
+    elif query.data == "back":
+        await start(update, context)
+
+# APP SETUP
 app = ApplicationBuilder().token(BOT_TOKEN).build()
+
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CallbackQueryHandler(button_handler))
 
-# Run the bot
 app.run_polling()
